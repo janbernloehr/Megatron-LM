@@ -4,7 +4,6 @@ import torch
 
 from megatron.core.utils import is_torch_min_version
 
-jit_fuser = torch.jit.script
 # nvFuser is deprecated in PyTorch JIT starting from 2.2
 
 
@@ -19,6 +18,8 @@ def enable_jit_fuser():
     try:
         if is_torch_min_version("2.2.0a0"):
             jit_fuser = torch.compile
+        else:
+            jit_fuser = torch.jit.script
     except ImportError:
 
         jit_fuser = noop_decorator
